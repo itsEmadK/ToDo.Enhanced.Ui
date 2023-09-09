@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="colorPrimaryDay">#203EDD</color>
+    <color name="colorPrimaryNight">#225A6D</color>
+    <color name="colorPrimaryDarkDay">#081E97</color>
+    <color name="colorPrimaryDarkNight">#0C3E50</color>
+    <color name="dividerColorDay">#F2F1F1</color>
+    <color name="dividerColorNight">#091D32</color>
+    <color name="dayBackground">#EEF1F4</color>
+    <color name="nightBackground">#0F1B27</color>
+    <color name="recyclerItemBackgroundDay">@color/white</color>
+    <color name="recyclerItemBackgroundNight">#162A3E</color>
+    <color name="editTextBackgroundDay">@color/white</color>
+    <color name="editTextBackgroundNight">#162A3E</color>
+    <color name="editTextStrokeDay">#C3B5B5</color>
+    <color name="editTextStrokeNight">#44598D</color>
+    <color name="transparent">#00FFFFFF</color>
+    <color name="red">#E63838</color>
+</resources>

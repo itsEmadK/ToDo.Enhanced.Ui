@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/listFragment">
+
+    <fragment
+        android:id="@+id/listFragment"
+        android:name="com.example.todoenhancedui.fragments.list.ListFragment"
+        android:label="ListFragment"
+        tools:layout="@layout/fragment_task_list">
+        <action
+            android:id="@+id/action_listFragment_to_addFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right"
+            app:destination="@id/addFragment" />
+        <action
+            android:id="@+id/action_listFragment_to_editFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popEnterAnim="@anim/from_right"
+            app:popExitAnim="@anim/to_left"
+            app:destination="@id/editFragment" />
+        <argument
+            android:name="date"
+            app:argType="string"
+            android:defaultValue="" />
+    </fragment>
+    <fragment
+        android:id="@+id/addFragment"
+        android:name="com.example.todoenhancedui.fragments.add.AddFragment"
+        android:label="AddFragment"
+        tools:layout="@layout/fragment_add_task">
+        <action
+            android:id="@+id/action_addFragment_to_listFragment"
+            app:destination="@id/listFragment"
+            app:popUpTo="@id/listFragment"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
+            app:popUpToInclusive="true" />
+        <argument
+            app:argType="java.time.LocalDate"
+            android:name="date" />
+    </fragment>
+    <fragment
+        android:id="@+id/editFragment"
+        android:name="com.example.todoenhancedui.fragments.edit.EditFragment"
+        android:label="EditFragment"
+        tools:layout="@layout/fragment_update_task">
+        <action
+            android:id="@+id/action_editFragment_to_listFragment"
+            app:destination="@id/listFragment"
+            app:popUpTo="@id/listFragment"
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left"
+            app:popUpToInclusive="true" />
+        <argument
+            android:name="taskItem"
+            app:argType="com.example.todoenhancedui.data.models.Task" />
+        <argument
+            android:name="date"
+            app:argType="java.time.LocalDate"/>
+    </fragment>
+</navigation>

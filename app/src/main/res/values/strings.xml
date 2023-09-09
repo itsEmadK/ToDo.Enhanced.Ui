@@ -1,0 +1,22 @@
+<resources>
+    <string name="app_name">ToDo Enhanced Ui</string>
+    <string name="september_10_2022">September 10, 2022</string>
+    <string name="my_tasks">My Tasks</string>
+    <string name="study_your_lesson">Study Your Lesson</string>
+    <string name="completed">Completed</string>
+    <string name="add_new_task">Add New Task</string>
+    <string name="add_new_task1">Add New Task</string>
+    <string name="task_title">Task Title</string>
+    <string name="your_title_here">Your Title Here</string>
+    <string name="when">When</string>
+    <string name="category">Category</string>
+    <string name="_10_20_2022">10/20/2022</string>
+    <string name="_12_29_pm">12:29 PM</string>
+    <string name="notes">Notes</string>
+    <string name="your_notes_here">Your Notes Here</string>
+    <string name="save">Save</string>
+    <string name="edit_task">Edit Task</string>
+    <string name="_08_12_pm">08:12 PM</string>
+    <string name="date">Date</string>
+    <string name="time">Time</string>
+</resources>

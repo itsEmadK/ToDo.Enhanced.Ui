@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    style="@style/DayNightScreenBackground"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@id/addNewTask_btn"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            style="@style/DayNightScreenBackground"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/header_imageView"
+                style="@style/DayNightHomeScreenHeader"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+            <ImageView
+                android:id="@+id/arrow_forward_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_arrow_forward"
+                app:layout_constraintBottom_toBottomOf="@id/date_textView"
+                app:layout_constraintStart_toEndOf="@id/date_textView"
+                app:layout_constraintTop_toTopOf="@id/date_textView" />
+
+            <TextView
+                android:id="@+id/date_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="44dp"
+                android:text="@string/september_10_2022"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@id/header_imageView" />
+
+            <ImageView
+                android:id="@+id/arrow_back_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/icon_arrow_back"
+                app:layout_constraintBottom_toBottomOf="@id/date_textView"
+                app:layout_constraintEnd_toStartOf="@id/date_textView"
+                app:layout_constraintTop_toTopOf="@id/date_textView" />
+
+
+            <TextView
+                android:id="@+id/myTasks_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:text="@string/my_tasks"
+                android:textColor="@color/white"
+                android:textSize="28sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/date_textView" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/todo_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="24dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/shape_recycler_view"
+                android:clipToOutline="true"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/myTasks_textView"
+                tools:itemCount="3"
+                tools:listitem="@layout/recycler_item_todo_day"
+                tools:targetApi="s" />
+
+
+            <TextView
+                android:id="@+id/completed_textView"
+                style="@style/DayNightTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/completed"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@id/todo_recyclerView"
+                app:layout_constraintTop_toBottomOf="@id/todo_recyclerView" />
+
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/todo_done_recyclerView"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:alpha="0.5"
+                android:background="@drawable/shape_recycler_view"
+                android:clipToOutline="true"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="@id/todo_recyclerView"
+                app:layout_constraintStart_toStartOf="@id/todo_recyclerView"
+                app:layout_constraintTop_toBottomOf="@id/completed_textView"
+
+                tools:ignore="UnusedAttribute"
+                tools:itemCount="2"
+                tools:listitem="@layout/recycler_item_todo_day" />
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/addNewTask_btn"
+        style="@style/DayNightButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:text="@string/add_new_task"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:fillViewport="true"
+    android:layout_height="match_parent">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        style="@style/DayNightScreenBackground"
+        android:layout_width="match_parent"
+        android:layout_height="0dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            style="@style/DayNightAddScreenHeader"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scaleType="fitXY"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+        <ImageView
+            android:id="@+id/close_btn"
+            style="@style/DayNightCloseIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/addNewTask_textView"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/addNewTask_textView" />
+
+
+        <TextView
+            android:id="@+id/addNewTask_textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_new_task1"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@id/imageView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@id/imageView" />
+
+
+        <TextView
+            android:id="@+id/taskTitle_textView"
+            style="@style/DayNightTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:text="@string/task_title"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageView" />
+
+
+        <EditText
+            android:id="@+id/title_editText"
+            style="@style/DayNightEditText"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:layout_marginEnd="20dp"
+            android:hint="@string/your_title_here"
+            android:inputType="textPersonName"
+            android:padding="8dp"
+            app:layout_constraintTop_toBottomOf="@id/taskTitle_textView" />
+
+        <TextView
+            android:id="@+id/category_textView"
+            style="@style/DayNightTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:text="@string/category"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/taskTitle_textView"
+            app:layout_constraintTop_toBottomOf="@id/title_editText" />
+
+        <ImageButton
+            android:id="@+id/document_category_imageView"
+            style="@style/DayNightDocumentIcon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:backgroundTint="@color/transparent"
+            app:layout_constraintBottom_toBottomOf="@id/category_textView"
+            app:layout_constraintStart_toEndOf="@id/category_textView"
+            app:layout_constraintTop_toTopOf="@id/category_textView" />
+
+        <ImageButton
+            android:id="@+id/reading_category_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.4"
+            android:backgroundTint="@color/transparent"
+            android:src="@drawable/book_icon"
+            app:layout_constraintBottom_toBottomOf="@id/document_category_imageView"
+            app:layout_constraintStart_toEndOf="@id/document_category_imageView"
+            app:layout_constraintTop_toTopOf="@id/document_category_imageView" />
+
+        <ImageButton
+            android:id="@+id/event_category_imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:alpha="0.4"
+            android:backgroundTint="@color/transparent"
+            android:src="@drawable/event_icon"
+            app:layout_constraintBottom_toBottomOf="@id/reading_category_imageView"
+            app:layout_constraintStart_toEndOf="@id/reading_category_imageView"
+            app:layout_constraintTop_toTopOf="@id/reading_category_imageView" />
+
+
+        <TextView
+            android:id="@+id/when_textView"
+            style="@style/DayNightTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="36dp"
+            android:text="@string/when"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/category_textView"
+            app:layout_constraintTop_toBottomOf="@id/category_textView" />
+
+
+        <EditText
+            android:id="@+id/date_editText"
+            style="@style/DayNightDateInputEditText"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="4dp"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="@string/date"
+            android:padding="8dp"
+            app:layout_constraintEnd_toStartOf="@id/time_editText"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/when_textView" />
+
+        <EditText
+            android:id="@+id/time_editText"
+            style="@style/DayNightTimeInputEditText"
+            android:layout_width="0dp"
+            android:layout_height="48dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="20dp"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:hint="@string/time"
+            android:padding="8dp"
+            app:layout_constraintBottom_toBottomOf="@id/date_editText"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@id/date_editText"
+            app:layout_constraintTop_toTopOf="@id/date_editText" />
+
+
+        <TextView
+            android:id="@+id/notes_textView"
+            style="@style/DayNightTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:text="@string/notes"
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="@id/when_textView"
+            app:layout_constraintTop_toBottomOf="@id/date_editText" />
+
+        <EditText
+            android:id="@+id/notes_editText"
+            style="@style/DayNightEditText"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="top|start"
+            android:hint="@string/your_notes_here"
+            android:inputType="textMultiLine"
+            android:minHeight="200dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="@id/time_editText"
+            app:layout_constraintStart_toStartOf="@id/date_editText"
+            app:layout_constraintTop_toBottomOf="@id/notes_textView" />
+
+
+        <Button
+            android:id="@+id/save_task_button"
+            style="@style/DayNightButton"
+            android:layout_width="0dp"
+            app:layout_constraintTop_toBottomOf="@id/notes_editText"
+            android:layout_height="64dp"
+            android:layout_marginBottom="20dp"
+            android:maxLength="300"
+            android:maxLines="10"
+            android:layout_marginTop="64dp"
+            android:text="@string/save"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="@id/notes_editText"
+            app:layout_constraintStart_toStartOf="@id/notes_editText" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
