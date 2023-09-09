@@ -18,7 +18,7 @@ import java.time.LocalDate
 import java.time.LocalTime
 
 class TaskListAdapter(
-    val updateTaskListener: UpdateTaskListener,
+    val updateTaskListener: TaskCompletedStatusChangedListener,
     val transferToEditListener: TransferToEditFragmentListener
 ) :
     RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>() {
@@ -35,15 +35,10 @@ class TaskListAdapter(
             doneCheckBox.setOnCheckedChangeListener { _, isChecked ->
                 val updatedItem = data[adapterPosition]
                 updatedItem.isCompleted = isChecked
-                updateTaskListener.onUpdate(task = updatedItem)
+                updateTaskListener.onCompletedStatusChanged(task = updatedItem)
             }
 
-            itemView.setOnClickListener {
-//                val action =
-//                    ListFragmentDirections.actionListFragmentToEditFragment(data[adapterPosition])
-//                itemView.findNavController().navigate(action)
-                transferToEditListener.onTransfer(data[adapterPosition])
-            }
+            itemView.setOnClickListener { transferToEditListener.onTransfer(data[adapterPosition]) }
         }
 
     }
@@ -84,6 +79,7 @@ class TaskListAdapter(
     private fun changeExpiredTaskColors(
         date: LocalDate?, time: LocalTime?, completed: Boolean, holder: TaskViewHolder
     ) {
+        if (completed) return
         val red = ContextCompat.getColor(holder.timeTv.context, R.color.red)
         if (date == null) {
             setDefaultTextViewColors(holder)
@@ -102,8 +98,6 @@ class TaskListAdapter(
         } else if (date.isAfter(LocalDate.now())) {
             setDefaultTextViewColors(holder)
         }
-
-
     }
 
     private fun isInDarkMode(context: Context): Boolean {

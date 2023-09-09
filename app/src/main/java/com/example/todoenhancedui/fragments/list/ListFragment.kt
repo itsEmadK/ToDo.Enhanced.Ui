@@ -19,7 +19,7 @@ import com.example.todoenhancedui.databinding.FragmentTaskListBinding
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 
-class ListFragment() : Fragment(), UpdateTaskListener, TransferToEditFragmentListener {
+class ListFragment() : Fragment(), TaskCompletedStatusChangedListener, TransferToEditFragmentListener {
     private var _binding: FragmentTaskListBinding? = null
     private val binding: FragmentTaskListBinding
         get() = _binding!!
@@ -86,7 +86,7 @@ class ListFragment() : Fragment(), UpdateTaskListener, TransferToEditFragmentLis
         _binding = null
     }
 
-    override fun onUpdate(task: Task) {
+    override fun onCompletedStatusChanged(task: Task) {
         viewModel.updateTask(task)
     }
 
