@@ -13,7 +13,6 @@ class LocalDateConverter {
         return date.toString()
     }
 
-    @RequiresApi(Build.VERSION_CODES.O)
     @TypeConverter
     fun toDate(date: String): LocalDate {
         val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd")

@@ -2,6 +2,7 @@ package com.example.todoenhancedui.fragments.list
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.view.GestureDetector
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,15 +12,18 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.todoenhancedui.R
 import com.example.todoenhancedui.data.models.Task
 import com.example.todoenhancedui.data.viewmodels.SharedViewModel
 import com.example.todoenhancedui.data.viewmodels.TaskViewModel
 import com.example.todoenhancedui.databinding.FragmentTaskListBinding
+import com.example.todoenhancedui.fragments.list.listeners.MyGestureListener
+import com.example.todoenhancedui.fragments.list.listeners.OnSwipedListener
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalTime
 
-class ListFragment() : Fragment(), TaskCompletedStatusChangedListener, TransferToEditFragmentListener {
+class ListFragment() : Fragment(), TaskCompletedStatusChangedListener,
+    TransferToEditFragmentListener {
     private var _binding: FragmentTaskListBinding? = null
     private val binding: FragmentTaskListBinding
         get() = _binding!!
@@ -35,7 +39,7 @@ class ListFragment() : Fragment(), TaskCompletedStatusChangedListener, TransferT
         return binding.root
     }
 
-    @SuppressLint("SetTextI18n")
+    @SuppressLint("SetTextI18n", "ClickableViewAccessibility")
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -51,11 +55,9 @@ class ListFragment() : Fragment(), TaskCompletedStatusChangedListener, TransferT
 
 
         if (args.date.isNotEmpty()) {
-            viewModel.selectedDate =
-                sharedViewModel.parseToLocalDate(args.date)!!
+            viewModel.selectedDate = sharedViewModel.parseToLocalDate(args.date)!!
         }
         binding.dateTextView.text = convertDateFormat(viewModel.selectedDate)
-
 
         viewLifecycleOwner.lifecycleScope.launch {
             viewModel.tasksForDate.observe(viewLifecycleOwner) {
@@ -63,6 +65,7 @@ class ListFragment() : Fragment(), TaskCompletedStatusChangedListener, TransferT
                 completedAdapter.setData(viewModel.getCompletedTasks(it))
             }
         }
+
         binding.addNewTaskBtn.setOnClickListener {
             val action =
                 ListFragmentDirections.actionListFragmentToAddFragment(viewModel.selectedDate)
@@ -78,6 +81,19 @@ class ListFragment() : Fragment(), TaskCompletedStatusChangedListener, TransferT
             binding.dateTextView.text = convertDateFormat(viewModel.selectedDate)
         }
 
+        val gestureListener = MyGestureListener(object : OnSwipedListener {
+            override fun onSwipeRight() {
+                viewModel.selectedDate = viewModel.selectedDate.minusDays(1)
+                binding.dateTextView.text = convertDateFormat(viewModel.selectedDate)
+            }
+
+            override fun onSwipeLeft() {
+                viewModel.selectedDate = viewModel.selectedDate.plusDays(1)
+                binding.dateTextView.text = convertDateFormat(viewModel.selectedDate)
+            }
+        })
+        val gestureDetector = GestureDetector(requireContext(), gestureListener)
+        binding.parentLayout.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
     }
 
 
@@ -87,7 +103,13 @@ class ListFragment() : Fragment(), TaskCompletedStatusChangedListener, TransferT
     }
 
     override fun onCompletedStatusChanged(task: Task) {
-        viewModel.updateTask(task)
+        val currentTime = LocalTime.now()
+        val updatedTask = if (task.isCompleted) task.copy(
+            completedDate = viewModel.selectedDate,
+            completedTime = LocalTime.of(currentTime.hour, currentTime.minute)
+        )
+        else task.copy(completedDate = null, completedTime = null)
+        viewModel.updateTask(updatedTask)
     }
 
     private fun convertDateFormat(date: LocalDate): String =
@@ -98,5 +120,6 @@ class ListFragment() : Fragment(), TaskCompletedStatusChangedListener, TransferT
             ListFragmentDirections.actionListFragmentToEditFragment(task, viewModel.selectedDate)
         findNavController().navigate(action)
     }
+
 
 }

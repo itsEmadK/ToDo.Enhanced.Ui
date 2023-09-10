@@ -16,7 +16,7 @@ interface TaskDao {
     @Query("SELECT * FROM  task_table ORDER BY id ASC")
     fun getAllData(): LiveData<List<Task>>
 
-    @Query("SELECT * FROM task_table WHERE date LIKE :dateArg OR date IS NULL ORDER BY time ASC")
+    @Query("SELECT * FROM task_table WHERE (date LIKE :dateArg OR date IS NULL) AND(completedDate LIKE :dateArg OR completedDate IS NULL) ORDER BY time ASC")
     fun getDataForDateOrderByTime(dateArg:LocalDate?):LiveData<List<Task>>
 
     @Insert(entity = Task::class, OnConflictStrategy.REPLACE)

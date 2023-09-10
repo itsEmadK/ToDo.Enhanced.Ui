@@ -1,5 +1,6 @@
 package com.example.todoenhancedui.fragments.list
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.res.Configuration
 import android.graphics.Color
@@ -20,8 +21,7 @@ import java.time.LocalTime
 class TaskListAdapter(
     val updateTaskListener: TaskCompletedStatusChangedListener,
     val transferToEditListener: TransferToEditFragmentListener
-) :
-    RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>() {
+) : RecyclerView.Adapter<TaskListAdapter.TaskViewHolder>() {
 
     private var data = emptyList<Task>()
 
@@ -55,6 +55,7 @@ class TaskListAdapter(
         bind(holder, position)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun bind(holder: TaskViewHolder, position: Int) {
         holder.titleTv.text = data[position].title
         holder.timeTv.text = if (data[position].time == null) "" else data[position].time.toString()
@@ -70,6 +71,7 @@ class TaskListAdapter(
             val paintFlag = Paint.STRIKE_THRU_TEXT_FLAG
             holder.timeTv.paintFlags = paintFlag
             holder.titleTv.paintFlags = paintFlag
+            data[position].completedTime?.let { holder.timeTv.text = "${it.hour}:${it.minute}" }
         }
 
         //Changing the color of the expired tasks of the same day to red:

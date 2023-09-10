@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -50,11 +51,17 @@ class EditFragment() : Fragment() {
 
         val defaultDate = args.date
 
-        binding.closeBtn.setOnClickListener {
-            val action = EditFragmentDirections.actionEditFragmentToListFragment()
-            action.date = sharedViewModel.dateToString(defaultDate)
-            findNavController().navigate(action)
-        }
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner,
+            object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    val action = EditFragmentDirections.actionEditFragmentToListFragment()
+                    action.date = sharedViewModel.dateToString(args.date)
+                    findNavController().navigate(action)
+                }
+
+            })
+
+        binding.closeBtn.setOnClickListener { requireActivity().onBackPressed() }
 
         binding.deleteBtn.setOnClickListener { confirmRemoval(args.taskItem) }
 
@@ -106,7 +113,9 @@ class EditFragment() : Fragment() {
                 task.category = getSelectedCategory()
                 updateDataInDB(task)
                 val action = EditFragmentDirections.actionEditFragmentToListFragment()
-                task.date?.let { action.date = sharedViewModel.dateToString(it) }
+                task.date?.let { action.date = sharedViewModel.dateToString(it) } ?: action.let {
+                    it.date = sharedViewModel.dateToString(args.date)
+                }
                 findNavController().navigate(action)
             } else Toast.makeText(requireContext(), "Please enter a title !", Toast.LENGTH_SHORT)
                 .show()

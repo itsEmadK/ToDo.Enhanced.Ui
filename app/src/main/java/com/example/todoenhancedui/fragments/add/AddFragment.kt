@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -38,9 +39,7 @@ class AddFragment() : Fragment() {
     private var category: Category = Category.WORKING
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
     ): View {
         _binding = FragmentAddTaskBinding.inflate(layoutInflater)
         initViews()
@@ -53,12 +52,7 @@ class AddFragment() : Fragment() {
 
         val defaultDate = args.date
 
-        binding.closeBtn.setOnClickListener {
-            val action=AddFragmentDirections.actionAddFragmentToListFragment()
-            action.date=sharedViewModel.dateToString(defaultDate)
-            findNavController().navigate(action)
-        }
-
+        binding.closeBtn.setOnClickListener { requireActivity().onBackPressed() }
         selectWorkingCategory()
 
         eventCategoryBtn.setOnClickListener {
@@ -83,15 +77,26 @@ class AddFragment() : Fragment() {
         }
         timeEditText.setOnClickListener {
             sharedViewModel.showTimePickerDialog(
-                timeEditText,
-                LocalTime.now().hour,
-                LocalTime.now().minute,
-                requireContext()
+                timeEditText, LocalTime.now().hour, LocalTime.now().minute, requireContext()
             )
         }
         binding.saveTaskButton.setOnClickListener {
             insertDataToDB()
         }
+
+        val onBackPressedCallback = object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                val action = AddFragmentDirections.actionAddFragmentToListFragment()
+                action.date = sharedViewModel.dateToString(args.date)
+                findNavController().navigate(action)
+            }
+        }
+        requireActivity().onBackPressedDispatcher.addCallback(
+            viewLifecycleOwner,
+            onBackPressedCallback
+        )
+
+
     }
 
     private fun insertDataToDB() {
@@ -101,15 +106,16 @@ class AddFragment() : Fragment() {
             val date = sharedViewModel.parseToLocalDate(dateEditText.text.toString())
             val time = sharedViewModel.parseToLocalTime(timeEditText.text.toString())
             val notes = notesEditText.text.toString()
-            val task = Task(title, category, date, time, false, notes)
+            val task = Task(title, category, date, time, false, notes, null, null)
             viewModel.insertTask(task)
             val action = AddFragmentDirections.actionAddFragmentToListFragment()
-            date?.let { action.date = sharedViewModel.dateToString(it) }
+            date?.let { action.date = sharedViewModel.dateToString(it) } ?: action.let {
+                it.date = sharedViewModel.dateToString(args.date)
+            }
             findNavController().navigate(action)
 
         } else {
-            Toast.makeText(requireContext(), "Please enter a title !", Toast.LENGTH_SHORT)
-                .show()
+            Toast.makeText(requireContext(), "Please enter a title !", Toast.LENGTH_SHORT).show()
         }
     }
 

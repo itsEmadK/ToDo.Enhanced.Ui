@@ -16,7 +16,9 @@ data class Task(
     var date: LocalDate?,
     var time: LocalTime?,
     var isCompleted: Boolean,
-    var notes:String,
+    var notes: String,
+    var completedDate: LocalDate?,
+    var completedTime: LocalTime?,
     @PrimaryKey(autoGenerate = true)
     var id: Int = 0
-):Parcelable
+) : Parcelable
