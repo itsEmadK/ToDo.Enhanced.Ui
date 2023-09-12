@@ -12,22 +12,22 @@
         tools:layout="@layout/fragment_task_list">
         <action
             android:id="@+id/action_listFragment_to_addFragment"
+            app:destination="@id/addFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right"
-            app:destination="@id/addFragment" />
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_listFragment_to_editFragment"
+            app:destination="@id/editFragment"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left"
-            app:destination="@id/editFragment" />
+            app:popExitAnim="@anim/to_left" />
         <argument
             android:name="date"
-            app:argType="string"
-            android:defaultValue="" />
+            android:defaultValue=""
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/addFragment"
@@ -37,13 +37,13 @@
         <action
             android:id="@+id/action_addFragment_to_listFragment"
             app:destination="@id/listFragment"
-            app:popUpTo="@id/listFragment"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right"
+            app:popUpTo="@id/listFragment"
             app:popUpToInclusive="true" />
         <argument
-            app:argType="java.time.LocalDate"
-            android:name="date" />
+            android:name="date"
+            app:argType="java.time.LocalDate" />
     </fragment>
     <fragment
         android:id="@+id/editFragment"
@@ -53,15 +53,15 @@
         <action
             android:id="@+id/action_editFragment_to_listFragment"
             app:destination="@id/listFragment"
-            app:popUpTo="@id/listFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
+            app:popUpTo="@id/listFragment"
             app:popUpToInclusive="true" />
         <argument
             android:name="taskItem"
             app:argType="com.example.todoenhancedui.data.models.Task" />
         <argument
             android:name="date"
-            app:argType="java.time.LocalDate"/>
+            app:argType="java.time.LocalDate" />
     </fragment>
 </navigation>

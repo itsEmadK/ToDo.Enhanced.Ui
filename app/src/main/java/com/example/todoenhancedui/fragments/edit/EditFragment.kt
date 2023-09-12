@@ -13,7 +13,6 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.todoenhancedui.R
 import com.example.todoenhancedui.data.models.Category
 import com.example.todoenhancedui.data.models.Task
 import com.example.todoenhancedui.data.viewmodels.SharedViewModel
@@ -172,7 +171,9 @@ class EditFragment() : Fragment() {
         dialog.setMessage("Are you sure you want to delete \"${task.title}\" task?")
         dialog.setPositiveButton("Delete") { _, _ ->
             viewModel.deleteTask(task)
-            findNavController().navigate(R.id.action_editFragment_to_listFragment)
+            val action = EditFragmentDirections.actionEditFragmentToListFragment()
+            action.date = sharedViewModel.dateToString(args.date)
+            findNavController().navigate(action)
             Toast.makeText(
                 requireContext(),
                 " Deleted \"${task.title}\" successfully",

@@ -12,12 +12,14 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.example.todoenhancedui.data.models.Task
 import com.example.todoenhancedui.data.viewmodels.SharedViewModel
 import com.example.todoenhancedui.data.viewmodels.TaskViewModel
 import com.example.todoenhancedui.databinding.FragmentTaskListBinding
 import com.example.todoenhancedui.fragments.list.listeners.MyGestureListener
 import com.example.todoenhancedui.fragments.list.listeners.OnSwipedListener
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
@@ -31,6 +33,10 @@ class ListFragment() : Fragment(), TaskCompletedStatusChangedListener,
     private val viewModel: TaskViewModel by viewModels()
     private val sharedViewModel: SharedViewModel by viewModels()
     private val args: ListFragmentArgs by navArgs()
+    private lateinit var openAdapter: TaskListAdapter
+    private lateinit var completedAdapter: TaskListAdapter
+    private lateinit var openTasksRecyclerView: RecyclerView
+    private lateinit var completedTasksRecyclerView: RecyclerView
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -43,16 +49,7 @@ class ListFragment() : Fragment(), TaskCompletedStatusChangedListener,
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val openAdapter = TaskListAdapter(this, this)
-        val completedAdapter = TaskListAdapter(this, this)
-        val openTasksRecyclerView = binding.todoRecyclerView
-        val completedTasksRecyclerView = binding.todoDoneRecyclerView
-
-        openTasksRecyclerView.adapter = openAdapter
-        openTasksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-        completedTasksRecyclerView.adapter = completedAdapter
-        completedTasksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
-
+        setUpRecyclerViews()
 
         if (args.date.isNotEmpty()) {
             viewModel.selectedDate = sharedViewModel.parseToLocalDate(args.date)!!
@@ -71,11 +68,12 @@ class ListFragment() : Fragment(), TaskCompletedStatusChangedListener,
                 ListFragmentDirections.actionListFragmentToAddFragment(viewModel.selectedDate)
             findNavController().navigate(action)
         }
+
         binding.arrowBackBtn.setOnClickListener {
             viewModel.selectedDate = viewModel.selectedDate.minusDays(1L)
             binding.dateTextView.text = convertDateFormat(viewModel.selectedDate)
-
         }
+
         binding.arrowForwardBtn.setOnClickListener {
             viewModel.selectedDate = viewModel.selectedDate.plusDays(1L)
             binding.dateTextView.text = convertDateFormat(viewModel.selectedDate)
@@ -93,16 +91,12 @@ class ListFragment() : Fragment(), TaskCompletedStatusChangedListener,
             }
         })
         val gestureDetector = GestureDetector(requireContext(), gestureListener)
-        binding.parentLayout.setOnTouchListener { _, event -> gestureDetector.onTouchEvent(event) }
+        binding.parentLayout.setOnTouchListener { _, event ->
+            gestureDetector.onTouchEvent(event)
+            false
+        }
     }
-
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-    override fun onCompletedStatusChanged(task: Task) {
+    override fun onTaskCompletedStatusChanged(task: Task) {
         val currentTime = LocalTime.now()
         val updatedTask = if (task.isCompleted) task.copy(
             completedDate = viewModel.selectedDate,
@@ -121,5 +115,21 @@ class ListFragment() : Fragment(), TaskCompletedStatusChangedListener,
         findNavController().navigate(action)
     }
 
+    private fun setUpRecyclerViews() {
+        openAdapter = TaskListAdapter(this, this)
+        completedAdapter = TaskListAdapter(this, this)
+        openTasksRecyclerView = binding.todoRecyclerView
+        completedTasksRecyclerView = binding.todoDoneRecyclerView
+        openTasksRecyclerView.adapter = openAdapter
+        openTasksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+        completedTasksRecyclerView.adapter = completedAdapter
+        completedTasksRecyclerView.layoutManager = LinearLayoutManager(requireContext())
+    }
+
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
 }

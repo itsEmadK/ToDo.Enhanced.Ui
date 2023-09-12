@@ -35,7 +35,7 @@ class TaskListAdapter(
             doneCheckBox.setOnCheckedChangeListener { _, isChecked ->
                 val updatedItem = data[adapterPosition]
                 updatedItem.isCompleted = isChecked
-                updateTaskListener.onCompletedStatusChanged(task = updatedItem)
+                updateTaskListener.onTaskCompletedStatusChanged(task = updatedItem)
             }
 
             itemView.setOnClickListener { transferToEditListener.onTransfer(data[adapterPosition]) }
